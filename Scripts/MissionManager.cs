@@ -4,14 +4,15 @@ using System.Collections;
 public class MissionManager : MonoBehaviour
 {
 	
-	public bool isRunning = false;
-	
-	void Awake (){
-	}
-	
+	public PlayerController thePlayer;
+	public bool isRunning = false;	
 	
 	void Update(){
 		if (isRunning) {
+			//Debug.Log("Running " + this.name);
+			if(thePlayer.lives < 1){
+				GameOver();
+			}
 		}
 	}
 	
