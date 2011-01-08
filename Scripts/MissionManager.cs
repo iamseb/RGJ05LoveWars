@@ -20,6 +20,7 @@ public class MissionManager : MonoBehaviour
 		foreach(AudioClip c in music){
 			AudioSource s = Managers.Audio.AddAndPlay(c, phases[counter]);
 			s.volume = 0;
+			s.loop = true;
 			audios.Add(s);
 			counter ++;
 		}
