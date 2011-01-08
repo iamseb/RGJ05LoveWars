@@ -5,9 +5,42 @@ public class MissionManager : MonoBehaviour
 {
 	
 	public PlayerController thePlayer;
-	public bool isRunning = false;	
+	public bool isRunning = false;
+	public AudioClip[] music;
+	private ArrayList audios;
+	public string[] phases;
+	public string currentPhase;
 	
-	void Update(){
+	void Awake(){
+	}
+	
+	void Start(){
+		audios = new ArrayList();
+		int counter = 0;
+		foreach(AudioClip c in music){
+			AudioSource s = Managers.Audio.AddAndPlay(c, phases[counter]);
+			s.volume = 0;
+			audios.Add(s);
+			counter ++;
+		}
+		Reset();
+
+	}
+	
+	void ChangePhase(int phase){
+		currentPhase = phases[phase];
+		foreach(AudioSource s in audios){
+			Debug.Log("Called with phase: " + phase + ", checking index:" +  audios.IndexOf(s));
+			float targetVolume = 0.0f;
+			if(audios.IndexOf(s) <= phase){
+				targetVolume = 1.0f;
+			}
+			Debug.Log("Calling SetTargetVolume");
+			StartCoroutine(Managers.Audio.SetTargetVolume(phases[audios.IndexOf(s)], targetVolume, 2.0f));
+		}
+	}
+	
+	void Update(){		
 		if (isRunning) {
 			//Debug.Log("Running " + this.name);
 			if(thePlayer.lives < 1){
@@ -24,6 +57,7 @@ public class MissionManager : MonoBehaviour
 	
 	public void Reset(){
 		isRunning = false;
+		ChangePhase(0);
 	}
 	
 }

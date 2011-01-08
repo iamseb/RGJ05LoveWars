@@ -12,8 +12,7 @@ public class LevelAttributes : MonoBehaviour
 		PlayerController p = (PlayerController)Instantiate(Managers.Mission.thePlayer);
 		p.name = "Player 1";
 		p.level = this;
-		Managers.Mission.thePlayer = p;
-		
+		Managers.Mission.thePlayer = p;		
 		Managers.Mission.isRunning = true;
 	}
 	

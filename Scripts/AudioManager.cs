@@ -14,6 +14,31 @@ using System.Collections;
 
 public class AudioManager : MonoBehaviour
 {
+	public Hashtable sources;
+	
+	void Awake(){
+		sources = new Hashtable();
+	}
+	
+	public IEnumerator SetTargetVolume(string name, float targetVolume, float seconds){
+		Debug.Log("Called to set " + name + " to volume " + targetVolume + " over " + seconds + " seconds.");
+		AudioSource s = (AudioSource)sources[name];
+		float currentVolume = s.volume;
+		// take the difference between the current and target volume
+		float volumeChange = targetVolume - currentVolume;
+		float step = volumeChange / seconds / 10.0f;
+		for(float i=0; i<seconds; i+= 0.1f){
+			s.volume += step;
+			yield return new WaitForSeconds(0.1f);
+		}
+	}
+	
+	public AudioSource AddAndPlay(AudioClip clip, string name){
+		AudioSource s = Play(clip, Vector3.zero);
+		sources[name] = s;
+		return s;
+	}
+	
     public AudioSource Play(AudioClip clip, Transform emitter)
     {
         return Play(clip, emitter, 1f, 1f);
