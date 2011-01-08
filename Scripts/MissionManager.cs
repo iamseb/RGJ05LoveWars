@@ -9,6 +9,7 @@ public class MissionManager : MonoBehaviour
 	public AudioClip[] music;
 	private ArrayList audios;
 	public string[] phases;
+	public int currentPhaseNum = 0;
 	public string currentPhase;
 	
 	void Awake(){
@@ -29,6 +30,7 @@ public class MissionManager : MonoBehaviour
 	}
 	
 	void ChangePhase(int phase){
+		currentPhaseNum = phase;
 		currentPhase = phases[phase];
 		foreach(AudioSource s in audios){
 			Debug.Log("Called with phase: " + phase + ", checking index:" +  audios.IndexOf(s));

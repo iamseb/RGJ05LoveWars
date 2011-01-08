@@ -33,6 +33,6 @@ public class LevelAttributes : MonoBehaviour
 			new Vector3(transform.position.x + width/2, 0, transform.position.y + height/2), 
 			new Vector3(transform.position.x - width/2, 0, transform.position.y + height/2)
 		);
-
 	}
+	
 }

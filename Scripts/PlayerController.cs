@@ -27,5 +27,10 @@ public class PlayerController : MonoBehaviour
 			transform.position = new Vector3(transform.position.x, transform.position.y, -level.height / 2 - size / 2);
 		}
 	}
+	
+	public void LoseLife(){
+		lives --;
+		transform.position = Vector3.zero;
+	}
 }
 
