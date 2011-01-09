@@ -34,7 +34,7 @@ public class AudioManager : MonoBehaviour
 			int idx = audios.IndexOf(s);
 			float targetVolume = 0.0f;
 			foreach(int i in sources){
-				Debug.Log("Checking source " + idx + " against argument " + i);
+				//Debug.Log("Checking source " + idx + " against argument " + i);
 				if(i == idx){
 					targetVolume = 1.0f;
 					break;
@@ -45,7 +45,7 @@ public class AudioManager : MonoBehaviour
 	}
 	
 	public IEnumerator SetTargetVolume(int idx, float targetVolume, float seconds){
-		Debug.Log("Called to set " + idx + " to volume " + targetVolume + " over " + seconds + " seconds.");
+		//Debug.Log("Called to set " + idx + " to volume " + targetVolume + " over " + seconds + " seconds.");
 		AudioSource s = (AudioSource)audios[idx];
 		float currentVolume = s.volume;
 		// take the difference between the current and target volume

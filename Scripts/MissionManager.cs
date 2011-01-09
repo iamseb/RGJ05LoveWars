@@ -8,9 +8,11 @@ public class MissionManager : MonoBehaviour
 	public bool isRunning = false;
 	public Phase firstPhase;
 	public Phase currentPhase;
+	public Phase mourning;
 	public float elapsedTime = 0.0f;
 	public Spawner spawner;
 	public Transform level;
+	public MessageGUI messageGUI;
 	
 	void Awake(){
 		spawner = level.GetComponent<Spawner>();
@@ -18,8 +20,12 @@ public class MissionManager : MonoBehaviour
 	}
 	
 	public void SpawnChild(){
-		Player p = thePlayer.gameObject.GetComponent<Player>();
-		Instantiate(p.childType, p.transform.position, p.transform.rotation);
+		Player p = thePlayer.gameObject.GetComponent<Player>();		
+		if(p.children.Count < 3){
+			Transform t = (Transform)Instantiate(p.childType, p.transform.position, p.transform.rotation);		
+			p.children.Add(t.GetComponent<Child>());
+			messageGUI.DisplayMessage("You had a child. Make sure you protect it!");
+		}
 	}
 	
 	void Start(){
@@ -49,12 +55,13 @@ public class MissionManager : MonoBehaviour
 		}
 	}
 	
-	public void LostChild(){
+	public void LostChild(Child lost){
 		thePlayer.SendMessage("AddScore", -100.0f);
 		thePlayer.SendMessage("LoseLife");
-		if(currentPhase.previousPhase != null){
-			ChangePhase(currentPhase.previousPhase);
-		}
+		Player p = thePlayer.gameObject.GetComponent<Player>();
+		p.children.Remove(lost);
+		ChangePhase(mourning);
+		messageGUI.DisplayMessage("You lost your child! Be more careful.");
 	}
 	
 	protected void GameOver(){

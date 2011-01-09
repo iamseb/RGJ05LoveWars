@@ -11,6 +11,7 @@ public class Spawner : MonoBehaviour
 	public LevelAttributes level;
 	public float minSpawnDistance = 2.0f;
 	public float minSpawnDistancePlayer = 5.0f;
+	public Transform particles;
 	
 	void Awake(){
 		level = gameObject.GetComponent<LevelAttributes>();

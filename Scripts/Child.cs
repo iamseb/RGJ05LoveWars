@@ -4,7 +4,7 @@ using System.Collections;
 public class Child : MonoBehaviour
 {
 	public void Hit(){
-		Managers.Mission.LostChild();
+		Managers.Mission.LostChild(this);
 		Destroy(gameObject);
 	}
 }

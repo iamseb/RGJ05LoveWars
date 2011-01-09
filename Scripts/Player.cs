@@ -10,6 +10,11 @@ public class Player : MonoBehaviour
 	public int score = 0;
 	public int scoreMultiplier = 100;
 	public Transform childType;
+	public ArrayList children;
+	
+	void Awake(){
+		children = new ArrayList();
+	}
 
 	public void Damage(float amount){
 		health -= amount;
@@ -25,8 +30,8 @@ public class Player : MonoBehaviour
 		score += (int)amount * multiplier;
 	}
 	
-	public void FixedUpdate(){
-		health += regen * Time.fixedDeltaTime;
+	public void Update(){
+		health += regen * Time.deltaTime;
 		if(health > maxHealth){
 			health = maxHealth;
 		}
@@ -35,6 +40,7 @@ public class Player : MonoBehaviour
 	public void LoseLife(){
 		lives --;
 		transform.position = Vector3.zero;
+		Managers.Mission.thePlayer.Size *= 1.0f / Managers.Mission.currentPhase.growMultiplier;
 	}
 
 

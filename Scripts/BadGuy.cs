@@ -15,15 +15,20 @@ public class BadGuy : MonoBehaviour
 	
 	void OnCollisionEnter(Collision c){
 		GameObject g = c.gameObject;
-		Debug.Log("Hit " + g.tag);
+		bool destroyed = false;
 		if(g.tag == "Player"){
 			g.SendMessage("Damage", size);
 			spawner.DeleteEnemy(this.transform);
-			Destroy(gameObject);
+			destroyed = true;
 		}
 		if(g.tag == "Child"){
 			g.SendMessage("Hit");
 			spawner.DeleteEnemy(this.transform);
+			destroyed = true;
+		}
+		
+		if(destroyed){
+			Instantiate(spawner.particles, transform.position, transform.rotation);
 			Destroy(gameObject);
 		}
 		
