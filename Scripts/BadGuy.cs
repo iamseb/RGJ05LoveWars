@@ -20,10 +20,10 @@ public class BadGuy : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void FixedUpdate (){
+	void Update (){
 		// this is a dumb follow behaviour. it will attempt to move towards the target, always.
 		if(target){
-			transform.position += (target.transform.position - transform.position).normalized * speed * Time.fixedDeltaTime;	
+			transform.position += (target.transform.position - transform.position).normalized * speed * Time.deltaTime;	
 		}
 	}
 	
