@@ -20,12 +20,16 @@ public class Phase : MonoBehaviour
 	
 	public void SetActive(){
 		isActive = true;
+		Debug.Log("Setting audio active for tracks:" + musicTracks[0]);
 		Managers.Audio.SetActive(musicTracks);
 	}
 	
 	public void Spawn(){
+		Spawner spawner = Managers.Mission.spawner;
 		for(int i=0; i<spawnAmounts.Length; i++){
-			StartCoroutine(Managers.Mission.spawner.Spawn(baddies[i], spawnAmounts[i]));
+			Transform baddie = baddies[i];
+			int amount = spawnAmounts[i];
+			StartCoroutine(spawner.Spawn(baddie, amount));
 		}
 	}
 

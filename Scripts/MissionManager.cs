@@ -10,9 +10,11 @@ public class MissionManager : MonoBehaviour
 	public Phase currentPhase;
 	public float elapsedTime = 0.0f;
 	public Spawner spawner;
+	public Transform level;
 	
 	void Awake(){
-		spawner = gameObject.GetComponent<Spawner>();
+		spawner = level.GetComponent<Spawner>();
+		currentPhase = firstPhase;
 	}
 	
 	void Start(){

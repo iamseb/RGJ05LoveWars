@@ -15,7 +15,8 @@ public class Spawner : MonoBehaviour
 		level = gameObject.GetComponent<LevelAttributes>();
 	}
 		
-	void Start(){
+	public IEnumerator Start(){
+		yield return new WaitForSeconds(3.0f);
 		Spawning = true;
 	}
 	

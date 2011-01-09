@@ -34,12 +34,13 @@ public class AudioManager : MonoBehaviour
 			int idx = audios.IndexOf(s);
 			float targetVolume = 0.0f;
 			foreach(int i in sources){
+				Debug.Log("Checking source " + idx + " against argument " + i);
 				if(i == idx){
 					targetVolume = 1.0f;
 					break;
 				}
 			}
-			SetTargetVolume(idx, targetVolume, 2.0f);
+			StartCoroutine(SetTargetVolume(idx, targetVolume, 2.0f));
 		}
 	}
 	
