@@ -16,7 +16,7 @@ public class MessageGUI : MonoBehaviour
 	}
 	
 	void OnGUI() {
-		GUILayout.BeginArea(new Rect(Screen.width/2-100, 0, 200, 50));
+		GUILayout.BeginArea(new Rect(Screen.width/2-100, 0, 200, 100));
 		GUILayout.Label("Current phase: " + Managers.Mission.currentPhase.name);
 		if(message != "" && timeSinceMessageDisplayed < messageDisplayTime){
 			GUILayout.Label(message);

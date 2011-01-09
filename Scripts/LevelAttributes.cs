@@ -6,9 +6,8 @@ public class LevelAttributes : MonoBehaviour
 	public float width = 30.0f;
 	public float height = 30.0f;
 	
-	void Awake(){
+	public void Setup(){
 		Debug.Log("Awake: " + this.name);
-		
 		PlayerController p = (PlayerController)Instantiate(Managers.Mission.thePlayer);
 		p.name = "Player 1";
 		p.level = this;

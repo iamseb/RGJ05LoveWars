@@ -13,10 +13,18 @@ public class MissionManager : MonoBehaviour
 	public Spawner spawner;
 	public Transform level;
 	public MessageGUI messageGUI;
+	public ScoreGUI scoreGUI;
 	
-	void Awake(){
+	public void Setup(){
+		firstPhase = (Phase)Instantiate(firstPhase);
+		mourning = (Phase)Instantiate(mourning);
+		level = (Transform)Instantiate(level);
+		level.SendMessage("Setup");
+		messageGUI = (MessageGUI)Instantiate(messageGUI);
+		scoreGUI = (ScoreGUI)Instantiate(scoreGUI);
 		spawner = level.GetComponent<Spawner>();
 		currentPhase = firstPhase;
+		ChangePhase(firstPhase);
 	}
 	
 	public void SpawnChild(){
@@ -26,11 +34,6 @@ public class MissionManager : MonoBehaviour
 			p.children.Add(t.GetComponent<Child>());
 			messageGUI.DisplayMessage("You had a child. Make sure you protect it!");
 		}
-	}
-	
-	void Start(){
-		Reset();
-		isRunning = true;
 	}
 	
 	void ChangePhase(Phase phase){
