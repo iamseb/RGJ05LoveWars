@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
 	}
 	
 	public void AddScore(float amount){
-		int multiplier = (Managers.Mission.currentPhaseNum + 1) * scoreMultiplier;
+		int multiplier = Managers.Mission.currentPhase.scoreMultiplier;
 		score += (int)amount * multiplier;
 	}
 	

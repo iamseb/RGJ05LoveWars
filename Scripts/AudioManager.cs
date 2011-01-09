@@ -14,15 +14,38 @@ using System.Collections;
 
 public class AudioManager : MonoBehaviour
 {
-	public Hashtable sources;
-	
-	void Awake(){
-		sources = new Hashtable();
+	public AudioClip[] music;
+	private ArrayList audios;
+
+	void Start(){
+		audios = new ArrayList();
+		foreach(AudioClip c in music){
+			AudioSource s = Managers.Audio.AddAndPlay(c, true);
+			s.volume = 0;
+		}
 	}
 	
-	public IEnumerator SetTargetVolume(string name, float targetVolume, float seconds){
-		Debug.Log("Called to set " + name + " to volume " + targetVolume + " over " + seconds + " seconds.");
-		AudioSource s = (AudioSource)sources[name];
+	void Awake(){
+		audios = new ArrayList();
+	}
+	
+	public void SetActive(int[] sources){
+		foreach(AudioSource s in audios){
+			int idx = audios.IndexOf(s);
+			float targetVolume = 0.0f;
+			foreach(int i in sources){
+				if(i == idx){
+					targetVolume = 1.0f;
+					break;
+				}
+			}
+			SetTargetVolume(idx, targetVolume, 2.0f);
+		}
+	}
+	
+	public IEnumerator SetTargetVolume(int idx, float targetVolume, float seconds){
+		Debug.Log("Called to set " + idx + " to volume " + targetVolume + " over " + seconds + " seconds.");
+		AudioSource s = (AudioSource)audios[idx];
 		float currentVolume = s.volume;
 		// take the difference between the current and target volume
 		float volumeChange = targetVolume - currentVolume;
@@ -33,9 +56,9 @@ public class AudioManager : MonoBehaviour
 		}
 	}
 	
-	public AudioSource AddAndPlay(AudioClip clip, string name, bool loop){
+	public AudioSource AddAndPlay(AudioClip clip, bool loop){
 		AudioSource s = Play(clip, Vector3.zero, loop);
-		sources[name] = s;
+		audios.Add(s);
 		return s;
 	}
 	

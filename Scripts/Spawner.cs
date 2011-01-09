@@ -3,14 +3,11 @@ using System.Collections;
 
 public class Spawner : MonoBehaviour
 {
-	public int[] phaseAmounts;
-	public float[] phaseTimers;
 	public Transform[] enemies;
 	public bool spawning = false;
 	public float timeSinceSpawn = 0.0f;
 	public float frequency = 1.0f;
 	public float spawnDelay = 0.2f;
-	public Transform[] badGuyTypes;
 	public LevelAttributes level;
 	public float minSpawnDistance = 2.0f;
 	
@@ -37,27 +34,25 @@ public class Spawner : MonoBehaviour
 
 	public IEnumerator SpawnEnemies(){
 		while(spawning){
+			Phase phase = Managers.Mission.currentPhase;
 			timeSinceSpawn += frequency;
-			int phaseNum = Managers.Mission.currentPhaseNum;
-			int phaseAmount = phaseAmounts[phaseNum];
-			float phaseTime = phaseTimers[phaseNum];
-			int minEnemies = phaseAmount / 4;
+			int minEnemies = phase.spawnMinAmount;
+			float phaseTime = phase.spawnDelay;
 			if(timeSinceSpawn > phaseTime || enemies.Length <= minEnemies){
-				Debug.Log("Spawning " + phaseAmount + " enemies.");
-				StartCoroutine(Spawn(phaseAmount, phaseNum));
+				phase.Spawn();
 				timeSinceSpawn = 0.0f;
 			}
 			yield return new  WaitForSeconds(frequency);
 		}
 	}
 	
-	public IEnumerator Spawn(int amount, int phase){		
+	public IEnumerator Spawn(Transform badguyType, int amount){		
 		for(int i=0; i<amount; i++){
 			Vector3 pos = new Vector3(Random.Range(-level.width/2, level.width/2), 0, Random.Range(-level.height/2, level.height/2));
 			while(!isFreeSpawn(pos)){
 				pos = new Vector3(Random.Range(-level.width/2, level.width/2), 0, Random.Range(-level.height/2, level.height/2));
 			}
-			Transform t = (Transform)Instantiate(badGuyTypes[phase], pos, Quaternion.identity);
+			Transform t = (Transform)Instantiate(badguyType, pos, Quaternion.identity);
 			t.gameObject.GetComponent<BadGuy>().spawner = this;
 			Transform[] newEnemies = new Transform[enemies.Length + 1];			
 			for(int j=0; j<enemies.Length; j++){
