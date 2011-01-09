@@ -17,7 +17,7 @@ public class AudioManager : MonoBehaviour
 	public AudioClip[] music;
 	private ArrayList audios;
 
-	public void Setup(){
+	public void DoSetup(){
 		audios = new ArrayList();
 		foreach(AudioClip c in music){
 			AudioSource s = Managers.Audio.AddAndPlay(c, true);

@@ -15,8 +15,9 @@ public class MissionManager : MonoBehaviour
 	public MessageGUI messageGUI;
 	public ScoreGUI scoreGUI;
 	
-	public void Setup(){
+	public void DoSetup(){
 		firstPhase = (Phase)Instantiate(firstPhase);
+		Debug.Log("Created firstPhase: " + firstPhase.name);
 		mourning = (Phase)Instantiate(mourning);
 		level = (Transform)Instantiate(level);
 		level.SendMessage("Setup");
@@ -46,14 +47,12 @@ public class MissionManager : MonoBehaviour
 	
 	void Update(){		
 		if (isRunning) {
+			Debug.Log("This is the MissionManager running");
+			Debug.Log("The level is: " + level.name);
 			elapsedTime += Time.deltaTime;
 			if(elapsedTime > currentPhase.secondsLong && currentPhase.nextPhase != null){
 				Debug.Log("Changing phase to " + currentPhase.nextPhase.name);
 				ChangePhase(currentPhase.nextPhase);
-			}
-			//Debug.Log("Running " + this.name);
-			if(thePlayer.lives < 1){
-				GameOver();
 			}
 		}
 	}

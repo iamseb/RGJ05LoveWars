@@ -5,8 +5,9 @@ public class GameRunningState : GameState
 {
     public override void OnActivate() {
 		Application.LoadLevel(2);
-		Managers.Mission.Setup();
-		Managers.Audio.Setup();
+		Managers.Audio.DoSetup();
+		Managers.Mission.DoSetup();
+		Debug.Log("Running");
 	}
 	
     public override void OnDeactivate() {
