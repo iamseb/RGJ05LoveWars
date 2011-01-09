@@ -35,6 +35,11 @@ public class BadGuy : MonoBehaviour
 			spawner.DeleteEnemy(this.transform);
 			Destroy(gameObject);
 		}
+		if(g.tag == "Child"){
+			g.SendMessage("Hit");
+			spawner.DeleteEnemy(this.transform);
+			Destroy(gameObject);
+		}
 		
 	}
 }

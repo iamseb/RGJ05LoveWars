@@ -58,6 +58,14 @@ public class MissionManager : MonoBehaviour
 		}
 	}
 	
+	public void LostChild(){
+		thePlayer.SendMessage("AddScore", -100.0f);
+		thePlayer.SendMessage("LoseLife");
+		if(currentPhaseNum > 0){
+			ChangePhase(currentPhaseNum -1);
+		}
+	}
+	
 	protected void GameOver(){
 		Debug.Log("GAME OVER MAN");
 		isRunning = false;
