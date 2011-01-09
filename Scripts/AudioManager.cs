@@ -33,8 +33,8 @@ public class AudioManager : MonoBehaviour
 		}
 	}
 	
-	public AudioSource AddAndPlay(AudioClip clip, string name){
-		AudioSource s = Play(clip, Vector3.zero);
+	public AudioSource AddAndPlay(AudioClip clip, string name, bool loop){
+		AudioSource s = Play(clip, Vector3.zero, loop);
 		sources[name] = s;
 		return s;
 	}
@@ -75,14 +75,14 @@ public class AudioManager : MonoBehaviour
         return source;
     }
 
-    public AudioSource Play(AudioClip clip, Vector3 point)
+    public AudioSource Play(AudioClip clip, Vector3 point, bool loop)
     {
-        return Play(clip, point, 1f, 1f);
+        return Play(clip, point, 1f, 1f, loop);
     }
 
     public AudioSource Play(AudioClip clip, Vector3 point, float volume)
     {
-        return Play(clip, point, volume, 1f);
+        return Play(clip, point, volume, 1f, false);
     }
 
     /// <summary>
@@ -94,7 +94,7 @@ public class AudioManager : MonoBehaviour
     /// <param name="volume"></param>
     /// <param name="pitch"></param>
     /// <returns></returns>
-    public AudioSource Play(AudioClip clip, Vector3 point, float volume, float pitch)
+    public AudioSource Play(AudioClip clip, Vector3 point, float volume, float pitch, bool loop)
     {
         //Create an empty game object
         GameObject go = new GameObject("Audio: " + clip.name);
@@ -105,8 +105,10 @@ public class AudioManager : MonoBehaviour
         source.clip = clip;
         source.volume = volume;
         source.pitch = pitch;
+		source.loop = loop;
         source.Play();
-        Destroy(go, clip.length);
+		if(!loop)
+        	Destroy(go, clip.length);
         return source;
     }
 }

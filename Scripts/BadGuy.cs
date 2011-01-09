@@ -7,8 +7,11 @@ public class BadGuy : MonoBehaviour
 	public Color color = Color.red;
 	public Transform target;
 	public float size = 1.0f;
+	public Spawner spawner;
 	
 	void Awake(){
+		Renderer r = gameObject.GetComponentInChildren<Renderer>();
+		r.material.color = color;
 		transform.localScale = Vector3.one * size;
 	}
 	
@@ -26,8 +29,10 @@ public class BadGuy : MonoBehaviour
 	
 	void OnCollisionEnter(Collision c){
 		GameObject g = c.gameObject;
+		Debug.Log("Hit " + g.tag);
 		if(g.tag == "Player"){
 			g.SendMessage("Damage", size);
+			spawner.DeleteEnemy(this.transform);
 			Destroy(gameObject);
 		}
 		

@@ -9,8 +9,10 @@ public class MissionManager : MonoBehaviour
 	public AudioClip[] music;
 	private ArrayList audios;
 	public string[] phases;
+	public float[] phaseTimes;
 	public int currentPhaseNum = 0;
 	public string currentPhase;
+	public float elapsedTime = 0.0f;
 	
 	void Awake(){
 	}
@@ -19,14 +21,13 @@ public class MissionManager : MonoBehaviour
 		audios = new ArrayList();
 		int counter = 0;
 		foreach(AudioClip c in music){
-			AudioSource s = Managers.Audio.AddAndPlay(c, phases[counter]);
+			AudioSource s = Managers.Audio.AddAndPlay(c, phases[counter], true);
 			s.volume = 0;
-			s.loop = true;
 			audios.Add(s);
 			counter ++;
 		}
 		Reset();
-
+		isRunning = true;
 	}
 	
 	void ChangePhase(int phase){
@@ -45,6 +46,11 @@ public class MissionManager : MonoBehaviour
 	
 	void Update(){		
 		if (isRunning) {
+			elapsedTime += Time.deltaTime;
+			if(elapsedTime > phaseTimes[currentPhaseNum] && currentPhaseNum < phases.Length - 1){
+				Debug.Log("Changing phase to " + currentPhaseNum + 1);
+				ChangePhase(currentPhaseNum+1);
+			}
 			//Debug.Log("Running " + this.name);
 			if(thePlayer.lives < 1){
 				GameOver();

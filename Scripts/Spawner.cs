@@ -11,12 +11,28 @@ public class Spawner : MonoBehaviour
 	public float frequency = 1.0f;
 	public float spawnDelay = 0.2f;
 	public Transform[] badGuyTypes;
+	public LevelAttributes level;
+	public float minSpawnDistance = 2.0f;
 	
 	void Awake(){
+		level = gameObject.GetComponent<LevelAttributes>();
 	}
 		
 	void Start(){
 		Spawning = true;
+	}
+	
+	public void DeleteEnemy(Transform dead){
+		Transform[] newEnemies = new Transform[enemies.Length - 1];
+		int j = 0;
+		for(int i=0; i<enemies.Length; i++){
+			Transform t = enemies[i];
+			if(t.GetInstanceID() != dead.GetInstanceID()){
+				newEnemies[j] = enemies[i];
+				j++;
+			}
+		}
+		enemies = newEnemies;
 	}
 
 	public IEnumerator SpawnEnemies(){
@@ -35,22 +51,22 @@ public class Spawner : MonoBehaviour
 		}
 	}
 	
-	public IEnumerator Spawn(int amount, int phase){
-		int currentLen = enemies.Length;
-		int nextLen = enemies.Length + amount;
-		Transform[] newEnemies = new Transform[nextLen];
-		
-		for(int i=0; i<currentLen; i++){
-			newEnemies[i] = enemies[i];
-		}
-		
+	public IEnumerator Spawn(int amount, int phase){		
 		for(int i=0; i<amount; i++){
-			Transform t = (Transform)Instantiate(badGuyTypes[phase]);
-			newEnemies[currentLen+i] = t;
+			Vector3 pos = new Vector3(Random.Range(-level.width/2, level.width/2), 0, Random.Range(-level.height/2, level.height/2));
+			while(!isFreeSpawn(pos)){
+				pos = new Vector3(Random.Range(-level.width/2, level.width/2), 0, Random.Range(-level.height/2, level.height/2));
+			}
+			Transform t = (Transform)Instantiate(badGuyTypes[phase], pos, Quaternion.identity);
+			t.gameObject.GetComponent<BadGuy>().spawner = this;
+			Transform[] newEnemies = new Transform[enemies.Length + 1];			
+			for(int j=0; j<enemies.Length; j++){
+				newEnemies[j] = enemies[j];
+			}
+			newEnemies[enemies.Length] = t;
+			enemies = newEnemies;
 			yield return new WaitForSeconds(spawnDelay);
 		}
-		
-		enemies = newEnemies;
 	}
 	
 	public bool Spawning {
@@ -59,6 +75,18 @@ public class Spawner : MonoBehaviour
 			spawning = value;
 			StartCoroutine(SpawnEnemies());
 		}
+	}
+	
+	public bool isFreeSpawn(Vector3 pos){
+		if((pos - Managers.Mission.thePlayer.transform.position).magnitude < minSpawnDistance){
+			return false;
+		}
+		foreach(Transform t in enemies){
+			if((pos - t.position).magnitude < minSpawnDistance){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	
