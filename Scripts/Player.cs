@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 	public int lives = 3;
 	public int score = 0;
 	public int scoreMultiplier = 100;
+	public Transform childType;
 
 	public void Damage(float amount){
 		health -= amount;

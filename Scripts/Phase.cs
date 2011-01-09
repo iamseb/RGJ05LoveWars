@@ -13,13 +13,20 @@ public class Phase : MonoBehaviour
 	public Phase previousPhase;
 	public int spawnMinAmount = 0;
 	public int scoreMultiplier = 100;
+	public bool addChild = false;
+	public float growMultiplier = 1.5f;
 	
 	public void SetInactive(){
 		isActive = false;
+		Managers.Mission.thePlayer.Size *= 1.0f / growMultiplier;
 	}
 	
 	public void SetActive(){
 		isActive = true;
+		Managers.Mission.thePlayer.Size *= growMultiplier;
+		if(addChild){
+			Managers.Mission.SpawnChild();
+		}
 		Debug.Log("Setting audio active for tracks:" + musicTracks[0]);
 		Managers.Audio.SetActive(musicTracks);
 	}

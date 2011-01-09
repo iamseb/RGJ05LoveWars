@@ -8,6 +8,11 @@ public class PlayerController : MonoBehaviour
 	public float size = 1.0f;
 	public Player player;
 	
+	public float Size {
+		get { return size; }
+		set { size = value; gameObject.transform.localScale = Vector3.one * size; }
+	}
+	
 	void Awake(){
 		player = GetComponent<Player>();
 	}

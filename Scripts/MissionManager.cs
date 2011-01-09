@@ -17,6 +17,11 @@ public class MissionManager : MonoBehaviour
 		currentPhase = firstPhase;
 	}
 	
+	public void SpawnChild(){
+		Player p = thePlayer.gameObject.GetComponent<Player>();
+		Instantiate(p.childType, p.transform.position, p.transform.rotation);
+	}
+	
 	void Start(){
 		Reset();
 		isRunning = true;

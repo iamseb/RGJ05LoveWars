@@ -10,6 +10,7 @@ public class Spawner : MonoBehaviour
 	public float spawnDelay = 0.2f;
 	public LevelAttributes level;
 	public float minSpawnDistance = 2.0f;
+	public float minSpawnDistancePlayer = 5.0f;
 	
 	void Awake(){
 		level = gameObject.GetComponent<LevelAttributes>();
@@ -74,7 +75,8 @@ public class Spawner : MonoBehaviour
 	}
 	
 	public bool isFreeSpawn(Vector3 pos){
-		if((pos - Managers.Mission.thePlayer.transform.position).magnitude < minSpawnDistance){
+		minSpawnDistancePlayer = Managers.Mission.thePlayer.size + 3.0f;
+		if((pos - Managers.Mission.thePlayer.transform.position).magnitude < minSpawnDistancePlayer){
 			return false;
 		}
 		foreach(Transform t in enemies){
