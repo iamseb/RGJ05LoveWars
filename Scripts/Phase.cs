@@ -19,6 +19,7 @@ public class Phase : MonoBehaviour
 	public void SetInactive(){
 		isActive = false;
 		//Managers.Mission.thePlayer.Size *= 1.0f / growMultiplier;
+		Destroy(gameObject, 3.0f);
 	}
 	
 	public void SetActive(){

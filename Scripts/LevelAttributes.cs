@@ -8,10 +8,7 @@ public class LevelAttributes : MonoBehaviour
 	
 	public void Setup(){
 		Debug.Log("Awake: " + this.name);
-		PlayerController p = (PlayerController)Instantiate(Managers.Mission.thePlayer);
-		p.name = "Player 1";
-		p.level = this;
-		Managers.Mission.thePlayer = p;		
+		Managers.Mission.thePlayer.level = this;		
 		Managers.Mission.isRunning = true;
 	}
 	

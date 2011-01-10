@@ -28,8 +28,9 @@ public class BadGuy : MonoBehaviour
 		}
 		
 		if(destroyed){
-			Instantiate(spawner.particles, transform.position, transform.rotation);
+			Transform t = (Transform)Instantiate(spawner.particles, transform.position, transform.rotation);
 			Destroy(gameObject);
+			Destroy(t.gameObject, 3.0f);
 		}
 		
 	}

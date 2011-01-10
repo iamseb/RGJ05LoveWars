@@ -15,14 +15,15 @@ public class MissionManager : MonoBehaviour
 	public MessageGUI messageGUI;
 	public ScoreGUI scoreGUI;
 	
-	public void DoSetup(){
-		firstPhase = (Phase)Instantiate(firstPhase);
+	public void DoSetup(GameRunningState state){
+		firstPhase = (Phase)Instantiate(state.firstPhase);
 		Debug.Log("Created firstPhase: " + firstPhase.name);
-		mourning = (Phase)Instantiate(mourning);
-		level = (Transform)Instantiate(level);
+		mourning = (Phase)Instantiate(state.mourning);
+		thePlayer = (PlayerController)Instantiate(state.player);
+		level = (Transform)Instantiate(state.level);
 		level.SendMessage("Setup");
-		messageGUI = (MessageGUI)Instantiate(messageGUI);
-		scoreGUI = (ScoreGUI)Instantiate(scoreGUI);
+		messageGUI = (MessageGUI)Instantiate(state.messageGUI);
+		scoreGUI = (ScoreGUI)Instantiate(state.scoreGUI);
 		spawner = level.GetComponent<Spawner>();
 		currentPhase = firstPhase;
 		ChangePhase(firstPhase);
@@ -38,9 +39,10 @@ public class MissionManager : MonoBehaviour
 	}
 	
 	void ChangePhase(Phase phase){
+		Phase p = (Phase)Instantiate(phase);
 		currentPhase.SetInactive();
-		phase.previousPhase = currentPhase;
-		currentPhase = phase;
+		p.previousPhase = currentPhase;
+		currentPhase = p;
 		currentPhase.SetActive();
 		elapsedTime = 0.0f;
 	}
